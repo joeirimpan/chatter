@@ -1,0 +1,25 @@
+<html>
+  <body>
+    <h1 id="ws_msg">{{ .message }}</h1>
+    <input id="message" type="text" placeholder="Message"></input>
+    <button id="send_btn">Send</button>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var loc = window.location;
+        var uri = 'ws://' + loc.host + loc.pathname + 'ws';
+        ws = new WebSocket(uri);
+        ws.onopen = function() {
+          console.log("Connected")
+        }
+        ws.onmessage = function(evt) {
+          $("#ws_msg").text(evt.data);
+        }
+        $("#send_btn").click(function(e) {
+          e.preventDefault();
+          ws.send($("#message").val());
+        });
+      });
+    </script>
+  </body>
+</html>
